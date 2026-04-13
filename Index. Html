@@ -1,0 +1,53 @@
+CREATE DATABASE counseling_system;
+USE counseling_system;
+
+-- Students Table
+CREATE TABLE Students (
+    student_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    phone VARCHAR(15),
+    age INT,
+    gender VARCHAR(10)
+);
+
+-- Counselors Table
+CREATE TABLE Counselors (
+    counselor_id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100),
+    specialization VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    phone VARCHAR(15)
+);
+
+-- Appointments Table
+CREATE TABLE Appointments (
+    appointment_id INT PRIMARY KEY AUTO_INCREMENT,
+    student_id INT,
+    counselor_id INT,
+    appointment_date DATE,
+    appointment_time TIME,
+    status VARCHAR(20),
+    FOREIGN KEY (student_id) REFERENCES Students(student_id),
+    FOREIGN KEY (counselor_id) REFERENCES Counselors(counselor_id)
+);
+
+-- Sessions Table
+CREATE TABLE Sessions (
+    session_id INT PRIMARY KEY AUTO_INCREMENT,
+    appointment_id INT,
+    session_notes TEXT,
+    session_date DATE,
+    FOREIGN KEY (appointment_id) REFERENCES Appointments(appointment_id)
+);
+
+-- Feedback Table
+CREATE TABLE Feedback (
+    feedback_id INT PRIMARY KEY AUTO_INCREMENT,
+    student_id INT,
+    counselor_id INT,
+    rating INT CHECK (rating BETWEEN 1 AND 5),
+    comments TEXT,
+    FOREIGN KEY (student_id) REFERENCES Students(student_id),
+    FOREIGN KEY (counselor_id) REFERENCES Counselors(counselor_id)
+);
